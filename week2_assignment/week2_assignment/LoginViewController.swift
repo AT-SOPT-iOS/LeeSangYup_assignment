@@ -35,10 +35,12 @@ class LoginViewController: UIViewController {
         textField.rightView = container
         textField.rightViewMode = .whileEditing
         textField.setPlaceholderColor(.gray2)
-        textField.borderStyle = .roundedRect
+        textField.layer.cornerRadius = 3
         textField.backgroundColor = .gray4
         textField.font = .pretendardSemiBold15
         textField.textColor = .gray2
+        textField.addTarget(self, action: #selector(textFieldDidBegin), for: .editingDidBegin)
+        textField.addTarget(self, action: #selector(textFieldDidEnd), for: .editingDidEnd)
         return textField
     }()
     
@@ -65,10 +67,12 @@ class LoginViewController: UIViewController {
         eyeButton.center = container.center
         textField.rightView = container
         textField.setPlaceholderColor(.gray2)
-        textField.borderStyle = .roundedRect
+        textField.layer.cornerRadius = 3
         textField.backgroundColor = .gray4
         textField.font = .pretendardSemiBold15
         textField.textColor = .gray2
+        textField.addTarget(self, action: #selector(textFieldDidBegin), for: .editingDidBegin)
+        textField.addTarget(self, action: #selector(textFieldDidEnd), for: .editingDidEnd)
         return textField
     }()
     
@@ -138,6 +142,15 @@ class LoginViewController: UIViewController {
         welcomeViewController.id = idTextField.text ?? ""
         self.navigationController?.pushViewController(welcomeViewController, animated: true)
         
+    }
+    @objc func textFieldDidBegin(_ textField: UITextField) {
+        textField.layer.borderColor = UIColor.gray2.cgColor
+        textField.layer.borderWidth = 1
+    }
+    
+    @objc func textFieldDidEnd(_ textField: UITextField) {
+        textField.layer.borderColor = UIColor.clear.cgColor
+        textField.layer.borderWidth = 0
     }
 }
 
