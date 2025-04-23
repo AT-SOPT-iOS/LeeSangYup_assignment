@@ -8,54 +8,58 @@
 import UIKit
 
 class WelcomeViewController: UIViewController {
+    var id: String?
     let logoImage: UIImageView = {
         let image = UIImageView()
         image.image = UIImage(named: "logo_tving")
         image.contentMode = .scaleAspectFit
         return image
     }()
-    let welcomeLable: UILabel = {
+    let welcomeLabel: UILabel = {
         let label = UILabel()
-        label.text = "님\n반가워요!"
         label.font = .pretendardBold23
         label.textColor = .white
         label.numberOfLines = 2
         label.textAlignment = .center
         return label
     }()
-    let mainButton: UIButton = {
+    lazy var mainButton: UIButton = {
         let button = UIButton()
         button.setTitle("메인으로", for: .normal)
         button.backgroundColor = .redTving
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 3
+        button.addTarget(self, action: #selector(backToLoginButtonDidTap), for: .touchUpInside)
+        
         return button
     }()
     override func viewDidLoad() {
-            super.viewDidLoad()
-            self.view.backgroundColor = .black
-            setLayout()
+        super.viewDidLoad()
+        self.view.backgroundColor = .black
+        setLayout()
         self.navigationItem.hidesBackButton = true
+        bindID()
+        
     }
     
     private func setLayout() {
         self.view.addSubviews(logoImage,
                               mainButton,
-                              welcomeLable)
+                              welcomeLabel)
         
         NSLayoutConstraint.activate([logoImage.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 58),
                                      logoImage.centerXAnchor.constraint(equalTo: view.centerXAnchor),
                                      logoImage.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                                      logoImage.trailingAnchor.constraint(equalTo: view.trailingAnchor),
                                      logoImage.heightAnchor.constraint(equalTo: logoImage.widthAnchor, multiplier: 9.0/16.0)
-
+                                     
                                     ])
         NSLayoutConstraint.activate([mainButton.topAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -96),
                                      mainButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20),
                                      mainButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -20),
                                      mainButton.heightAnchor.constraint(equalToConstant: 52)])
-        NSLayoutConstraint.activate([welcomeLable.topAnchor.constraint(equalTo: logoImage.bottomAnchor, constant: 67),
-                                     welcomeLable.centerXAnchor.constraint(equalTo: view.centerXAnchor)])
+        NSLayoutConstraint.activate([welcomeLabel.topAnchor.constraint(equalTo: logoImage.bottomAnchor, constant: 67),
+                                     welcomeLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor)])
     }
     @objc
     func backToLoginButtonDidTap() {
@@ -65,6 +69,11 @@ class WelcomeViewController: UIViewController {
             self.navigationController?.popViewController(animated: true)
         }
     }
+    private func bindID() {
+        self.welcomeLabel.text = "\(id ?? "???")님 \n반가워요!"
+    }
+}
+
 
 #Preview{
     WelcomeViewController()
