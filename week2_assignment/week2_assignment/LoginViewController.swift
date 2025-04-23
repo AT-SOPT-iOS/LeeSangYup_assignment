@@ -81,7 +81,7 @@ class LoginViewController: UIViewController {
         button.layer.shadowColor = UIColor.black.cgColor
         button.layer.shadowOpacity = 0.1
         button.layer.shadowOffset = CGSize(width: 0, height: 4)
-        button.layer.shadowRadius = 6
+        button.addTarget(self, action: #selector(loginButtonDidTap), for: .touchUpInside)
         button.titleLabel?.font = .pretendardSemiBold14
         return button
     }()
@@ -128,6 +128,16 @@ class LoginViewController: UIViewController {
     @objc
     func clearIdTextField() {
         idTextField.text = ""
+    }
+    @objc
+    func loginButtonDidTap() {
+        pushToWelcomVC()
+    }
+    private func pushToWelcomVC() {
+        let welcomeViewController = WelcomeViewController()
+        welcomeViewController.id = idTextField.text ?? ""
+        self.navigationController?.pushViewController(welcomeViewController, animated: true)
+        
     }
 }
 

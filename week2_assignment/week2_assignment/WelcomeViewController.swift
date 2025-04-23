@@ -35,7 +35,7 @@ class WelcomeViewController: UIViewController {
             super.viewDidLoad()
             self.view.backgroundColor = .black
             setLayout()
-
+        self.navigationItem.hidesBackButton = true
     }
     
     private func setLayout() {
@@ -57,7 +57,14 @@ class WelcomeViewController: UIViewController {
         NSLayoutConstraint.activate([welcomeLable.topAnchor.constraint(equalTo: logoImage.bottomAnchor, constant: 67),
                                      welcomeLable.centerXAnchor.constraint(equalTo: view.centerXAnchor)])
     }
-}
+    @objc
+    func backToLoginButtonDidTap() {
+        if self.navigationController == nil {
+            self.dismiss(animated: true)
+        } else {
+            self.navigationController?.popViewController(animated: true)
+        }
+    }
 
 #Preview{
     WelcomeViewController()
