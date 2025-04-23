@@ -9,7 +9,7 @@ import UIKit
 
 class LoginViewController: UIViewController {
     
-    let titleLabel: UILabel = {
+    lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.text="TVING ID 로그인"
         label.font = .pretendardMedium23
@@ -41,6 +41,7 @@ class LoginViewController: UIViewController {
         textField.textColor = .gray2
         textField.addTarget(self, action: #selector(textFieldDidBegin), for: .editingDidBegin)
         textField.addTarget(self, action: #selector(textFieldDidEnd), for: .editingDidEnd)
+        textField.addTarget(self, action: #selector(textFieldsDidChange), for: .editingChanged)
         return textField
     }()
     
@@ -73,20 +74,67 @@ class LoginViewController: UIViewController {
         textField.textColor = .gray2
         textField.addTarget(self, action: #selector(textFieldDidBegin), for: .editingDidBegin)
         textField.addTarget(self, action: #selector(textFieldDidEnd), for: .editingDidEnd)
+        textField.addTarget(self, action: #selector(textFieldsDidChange), for: .editingChanged)
         return textField
     }()
     
-    let loginButton: UIButton = {
+    lazy var loginButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = .redTving
+        button.backgroundColor = .black
         button.setTitle("로그인하기", for: .normal)
         button.setTitleColor(.white, for: .normal)
+        button.isEnabled = false
         button.layer.cornerRadius = 3
-        button.layer.shadowColor = UIColor.black.cgColor
-        button.layer.shadowOpacity = 0.1
-        button.layer.shadowOffset = CGSize(width: 0, height: 4)
-        button.addTarget(self, action: #selector(loginButtonDidTap), for: .touchUpInside)
+        button.layer.borderWidth = 1
+        button.layer.borderColor = UIColor.gray4.cgColor
         button.titleLabel?.font = .pretendardSemiBold14
+        button.addTarget(self, action: #selector(loginButtonDidTap), for: .touchUpInside)
+        return button
+    }()
+    
+    let findIdButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("아이디 찾기", for: .normal)
+        button.titleLabel?.font = .pretendardSemiBold14
+        button.setTitleColor(.gray2, for: .normal)
+        button.backgroundColor = .black
+        return button
+    }()
+    
+    let buttonDivider: UIView = {
+        let view = UIView()
+        view.backgroundColor = .gray4
+        return view
+    }()
+    
+    let findPasswordButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("비밀번호 찾기", for: .normal)
+        button.titleLabel?.font = .pretendardSemiBold14
+        button.setTitleColor(.gray2, for: .normal)
+        button.backgroundColor = .black
+        return button
+    }()
+    
+    let dontHaveAccountLabel: UILabel = {
+        let label = UILabel()
+        label.text = "아직 계정이 없으신가요?"
+        label.font = .pretendardSemiBold14
+        label.textColor = .gray3
+        return label
+    }()
+    
+    let newNicknameButton: UIButton = {
+        let button = UIButton()
+        let title = "닉네임 만들러가기"
+        let attributes: [NSAttributedString.Key: Any] = [
+            .font: UIFont.pretendardRegular14,
+            .foregroundColor: UIColor.gray2,
+            .underlineStyle: NSUnderlineStyle.single.rawValue
+        ]
+        let attributedTitle = NSAttributedString(string: title, attributes: attributes)
+        button.setAttributedTitle(attributedTitle, for: .normal)
+        button.backgroundColor = .black
         return button
     }()
     
@@ -100,7 +148,12 @@ class LoginViewController: UIViewController {
         self.view.addSubviews(titleLabel,
                               idTextField,
                               passwordTextField,
-                              loginButton)
+                              loginButton,
+                              findIdButton,
+                              buttonDivider,
+                              findPasswordButton,
+                              dontHaveAccountLabel,
+                              newNicknameButton)
         
         NSLayoutConstraint.activate([titleLabel.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 90),
                                      titleLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)])
@@ -117,6 +170,19 @@ class LoginViewController: UIViewController {
                                      loginButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20),
                                      loginButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -20),
                                      loginButton.heightAnchor.constraint(equalToConstant: 52)])
+        NSLayoutConstraint.activate([buttonDivider.topAnchor.constraint(equalTo: loginButton.bottomAnchor, constant: 36),
+                                     buttonDivider.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                                     buttonDivider.widthAnchor.constraint(equalToConstant: 1),
+                                     buttonDivider.heightAnchor.constraint(equalToConstant: 12)])
+        NSLayoutConstraint.activate([findIdButton.topAnchor.constraint(equalTo: loginButton.bottomAnchor, constant: 31),
+                                     findIdButton.trailingAnchor.constraint(equalTo: buttonDivider.leadingAnchor, constant: -33)])
+        NSLayoutConstraint.activate([findPasswordButton.centerYAnchor.constraint(equalTo: findIdButton.centerYAnchor),
+                                     findPasswordButton.leadingAnchor.constraint(equalTo: buttonDivider.trailingAnchor, constant: 36)])
+        NSLayoutConstraint.activate([dontHaveAccountLabel.topAnchor.constraint(equalTo: findIdButton.bottomAnchor, constant: 28),
+                                     dontHaveAccountLabel.centerXAnchor.constraint(equalTo: findIdButton.centerXAnchor)])
+        NSLayoutConstraint.activate([newNicknameButton.centerYAnchor.constraint(equalTo: dontHaveAccountLabel.centerYAnchor),
+                                     newNicknameButton.leadingAnchor.constraint(equalTo: dontHaveAccountLabel.trailingAnchor, constant: 17),
+                                     newNicknameButton.widthAnchor.constraint(equalToConstant: 128)])
     }
     
     @objc
@@ -142,6 +208,15 @@ class LoginViewController: UIViewController {
         welcomeViewController.id = idTextField.text ?? ""
         self.navigationController?.pushViewController(welcomeViewController, animated: true)
         
+    }
+    @objc func textFieldsDidChange(_ textField: UITextField) {
+        let isIdFilled = !(idTextField.text ?? "").isEmpty
+        let isPasswordFilled = !(passwordTextField.text ?? "").isEmpty
+        
+        let shouldEnable = isIdFilled && isPasswordFilled
+        loginButton.isEnabled = shouldEnable
+        loginButton.alpha = shouldEnable ? 1.0 : 0.5
+        loginButton.backgroundColor = shouldEnable ? .redTving : .gray4
     }
     @objc func textFieldDidBegin(_ textField: UITextField) {
         textField.layer.borderColor = UIColor.gray2.cgColor
