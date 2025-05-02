@@ -29,7 +29,7 @@ class WelcomeViewController: UIViewController {
         button.backgroundColor = .redTving
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 3
-        button.addTarget(self, action: #selector(backToLoginButtonDidTap), for: .touchUpInside)
+        button.addTarget(self, action: #selector(goToMainButtonDidTap), for: .touchUpInside)
         
         return button
     }()
@@ -68,6 +68,12 @@ class WelcomeViewController: UIViewController {
         } else {
             self.navigationController?.popViewController(animated: true)
         }
+    }
+    
+    @objc
+    func goToMainButtonDidTap() {
+        let mainViewController = MainViewController()
+        self.navigationController?.pushViewController(mainViewController, animated: true)
     }
     private func bindID() {
         self.welcomeLabel.text = "\(id ?? "???")님 \n반가워요!"
