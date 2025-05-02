@@ -103,7 +103,7 @@ final class MainViewController: UIViewController {
     }()
     
     private let popularLiveCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
-
+    
     private let popularData = popularLiveModel.dummyData()
     
     private let baseballVC = BaseballCollectionViewController()
@@ -134,7 +134,7 @@ final class MainViewController: UIViewController {
         label.textColor = .white
         return label
     }()
-
+    
     private let masterpieceVC = MasterpieceCollectionViewController()
     
     private let notiLabelStackView: UIStackView = {
@@ -259,7 +259,7 @@ final class MainViewController: UIViewController {
     private func setUI() {
         view.backgroundColor = .black
         self.navigationItem.hidesBackButton = true
-
+        
         topButtonStackView.addArrangedSubview(searchButton)
         topButtonStackView.addArrangedSubview(tvingButton)
         
@@ -276,7 +276,7 @@ final class MainViewController: UIViewController {
         
         popularMovieTextStackView.addArrangedSubview(popularMovieLabel)
         popularMovieTextStackView.addArrangedSubview(moreButton)
-
+        
         todayTvingCollectionView.showsHorizontalScrollIndicator = false
         todayTvingCollectionView.backgroundColor = .clear
         
@@ -285,20 +285,20 @@ final class MainViewController: UIViewController {
         
         notiLabelStackView.addArrangedSubview(notiLabel)
         notiLabelStackView.addArrangedSubview(notiTitleLabel)
-
+        
         notificationStackView.addArrangedSubview(notiLabelStackView)
         notificationStackView.addArrangedSubview(notiButton)
-
+        
         infoFirstStackView.addArrangedSubview(infoButton1)
         infoFirstStackView.addArrangedSubview(infoButton2)
         infoFirstStackView.addArrangedSubview(infoButton3)
         
         infoSecondStackView.addArrangedSubview(infoButton4)
         infoSecondStackView.addArrangedSubview(infoButton5)
-
+        
         infoStackView.addArrangedSubview(infoFirstStackView)
         infoStackView.addArrangedSubview(infoSecondStackView)
-
+        
         
         contentView.addSubviews(mainPostImageView,
                                 todayTvingLabel,
@@ -365,7 +365,7 @@ final class MainViewController: UIViewController {
             $0.top.equalTo(todayTvingCollectionView.snp.bottom).offset(9)
             $0.leading.equalToSuperview().offset(12)
             $0.trailing.equalToSuperview().inset(12)
-
+            
         }
         
         popularLiveCollectionView.snp.makeConstraints{
@@ -378,7 +378,7 @@ final class MainViewController: UIViewController {
             $0.top.equalTo(popularLiveCollectionView.snp.bottom).offset(18)
             $0.leading.equalToSuperview().offset(12)
             $0.trailing.equalToSuperview().inset(12)
-
+            
         }
         
         popularMovieVC.view.snp.makeConstraints {
@@ -387,7 +387,7 @@ final class MainViewController: UIViewController {
             $0.height.equalTo(146)
         }
         
-        baseballVC.view.snp.makeConstraints {    
+        baseballVC.view.snp.makeConstraints {
             $0.top.equalTo(popularMovieVC.view.snp.bottom).offset(28)
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(50)
@@ -445,7 +445,7 @@ final class MainViewController: UIViewController {
     private func register() {
         todayTvingCollectionView.register(CollectionViewCell.self, forCellWithReuseIdentifier: CollectionViewCell.identifier)
         popularLiveCollectionView.register(popularLiveCollectionViewCell.self, forCellWithReuseIdentifier: popularLiveCollectionViewCell.identifier)
-
+        
     }
     
     private func setDelegate() {
@@ -460,30 +460,30 @@ final class MainViewController: UIViewController {
 extension MainViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == todayTvingCollectionView {
-                    return todayData.count
-                } else if collectionView == popularLiveCollectionView {
-                    return popularData.count
-                }
-                return 0
+            return todayData.count
+        } else if collectionView == popularLiveCollectionView {
+            return popularData.count
+        }
+        return 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if collectionView == todayTvingCollectionView {
-                   let cell = collectionView.dequeueReusableCell(
-                       withReuseIdentifier: CollectionViewCell.identifier,
-                       for: indexPath
-                   ) as! CollectionViewCell
-                   cell.dataBind(todayData[indexPath.item])
-                   return cell
-
-               } else {
-                   let cell = collectionView.dequeueReusableCell(
-                       withReuseIdentifier: popularLiveCollectionViewCell.identifier,
-                       for: indexPath
-                   ) as! popularLiveCollectionViewCell
-                   cell.dataBind(popularData[indexPath.item])
-                   return cell
-               }
+            let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: CollectionViewCell.identifier,
+                for: indexPath
+            ) as! CollectionViewCell
+            cell.dataBind(todayData[indexPath.item])
+            return cell
+            
+        } else {
+            let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: popularLiveCollectionViewCell.identifier,
+                for: indexPath
+            ) as! popularLiveCollectionViewCell
+            cell.dataBind(popularData[indexPath.item])
+            return cell
+        }
     }
     
     
@@ -494,23 +494,23 @@ extension MainViewController: UICollectionViewDelegateFlowLayout {
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-                if collectionView == todayTvingCollectionView {
-                    let posterWidth = UIScreen.main.bounds.width * 0.3
-                    let labelWidth: CGFloat = 24
-                    let spacing: CGFloat = 8
-                    
-                    let totalWidth = posterWidth + labelWidth + spacing
-                    let totalHeight = posterWidth * 1.5
-                    return CGSize(width: totalWidth, height: totalHeight)
-                }
-                
-                else if collectionView == popularLiveCollectionView {
-                    let itemHeight: CGFloat = 150
-                    let itemWidth = itemHeight * 1.2
-                    return CGSize(width: itemWidth, height: itemHeight)
-                }
-                
-                return .zero
+        if collectionView == todayTvingCollectionView {
+            let posterWidth = UIScreen.main.bounds.width * 0.3
+            let labelWidth: CGFloat = 24
+            let spacing: CGFloat = 8
+            
+            let totalWidth = posterWidth + labelWidth + spacing
+            let totalHeight = posterWidth * 1.5
+            return CGSize(width: totalWidth, height: totalHeight)
+        }
+        
+        else if collectionView == popularLiveCollectionView {
+            let itemHeight: CGFloat = 150
+            let itemWidth = itemHeight * 1.2
+            return CGSize(width: itemWidth, height: itemHeight)
+        }
+        
+        return .zero
     }
 }
 
