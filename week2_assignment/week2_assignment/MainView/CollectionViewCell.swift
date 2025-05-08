@@ -238,7 +238,7 @@ extension PopularMovieCollectionViewCell {
 }
 
 class etcCollectionViewCell: UICollectionViewCell {
-    static let identifier = "PopularMovieCollectionViewCell"
+    static let identifier = "etcCollectionViewCell"
     
     private let etcImageView: UIImageView = {
         let imageView = UIImageView()
