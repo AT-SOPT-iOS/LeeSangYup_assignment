@@ -23,6 +23,16 @@ class WelcomeViewController: UIViewController {
         label.textAlignment = .center
         return label
     }()
+    lazy var boxofficeButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("영화 리스트", for: .normal)
+        button.backgroundColor = .redTving
+        button.setTitleColor(.white, for: .normal)
+        button.layer.cornerRadius = 3
+        button.addTarget(self, action: #selector(boxofficeButtonDidTap), for: .touchUpInside)
+        
+        return button
+    }()
     lazy var mainButton: UIButton = {
         let button = UIButton()
         button.setTitle("메인으로", for: .normal)
@@ -44,6 +54,7 @@ class WelcomeViewController: UIViewController {
     
     private func setLayout() {
         self.view.addSubviews(logoImage,
+                              boxofficeButton,
                               mainButton,
                               welcomeLabel)
         
@@ -54,7 +65,11 @@ class WelcomeViewController: UIViewController {
                                      logoImage.heightAnchor.constraint(equalTo: logoImage.widthAnchor, multiplier: 9.0/16.0)
                                      
                                     ])
-        NSLayoutConstraint.activate([mainButton.topAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -96),
+        NSLayoutConstraint.activate([boxofficeButton.topAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -196),
+                                     boxofficeButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20),
+                                     boxofficeButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -20),
+                                     boxofficeButton.heightAnchor.constraint(equalToConstant: 52)])
+        NSLayoutConstraint.activate([mainButton.topAnchor.constraint(equalTo: boxofficeButton.bottomAnchor, constant: 16),
                                      mainButton.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20),
                                      mainButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -20),
                                      mainButton.heightAnchor.constraint(equalToConstant: 52)])
@@ -69,7 +84,11 @@ class WelcomeViewController: UIViewController {
             self.navigationController?.popViewController(animated: true)
         }
     }
-    
+    @objc
+    func boxofficeButtonDidTap() {
+        let boxofficeViewController = BoxofficeViewController()
+        self.navigationController?.pushViewController(boxofficeViewController, animated: true)
+    }
     @objc
     func goToMainButtonDidTap() {
         let mainViewController = MainViewController()
@@ -81,7 +100,5 @@ class WelcomeViewController: UIViewController {
 }
 
 
-#Preview{
-    WelcomeViewController()
-}
+
 
