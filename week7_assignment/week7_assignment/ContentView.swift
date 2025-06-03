@@ -40,7 +40,7 @@ struct TopLogoBar: View {
                 Image("Search")
             }
             .padding(.trailing, 10)
-
+            
             Button(action: {}) {
                 Image("tving_button")
             }
@@ -109,7 +109,7 @@ struct TodayTIVING: View {
                 .foregroundStyle(.white)
                 .font(.title3)
                 .fontWeight(.bold)
-        ScrollView(.horizontal){
+            ScrollView(.horizontal){
                 LazyHGrid(rows: rows, spacing: 16) {
                     ForEach(1...11, id: \.self) { index in
                         TodayTIVINGItems(index: index)
@@ -124,15 +124,15 @@ struct TodayTIVING: View {
 struct TodayTIVINGItems: View {
     var index: Int = 0
     var body: some View {
-            HStack(alignment: .bottom){
-                Text("\(index)")
-                    .foregroundStyle(.white)
-                    .font(.largeTitle)
-                    .italic()
-                Image("movie\(index)")
-                    .resizable()
-                    .frame(width: 98, height: 146)
-            }
+        HStack(alignment: .bottom){
+            Text("\(index)")
+                .foregroundStyle(.white)
+                .font(.largeTitle)
+                .italic()
+            Image("movie\(index)")
+                .resizable()
+                .frame(width: 98, height: 146)
+        }
     }
 }
 
@@ -303,7 +303,7 @@ struct NotificationView: View {
                 .foregroundStyle(.gray2)
                 .font(.caption)
                 .padding(.leading, 17)
-
+            
             Text("티빙 계정 공유 정책 추가 안내")
                 .foregroundStyle(.gray1)
                 .font(.caption)
