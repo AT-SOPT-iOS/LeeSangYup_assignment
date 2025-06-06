@@ -16,7 +16,7 @@ struct ContentView: View {
                 YournameImage()
                 TodayTIVING()
                 PopularLives()
-                PoularMovies()
+                PopularMovies()
                 BaseballButtons()
                 EtcPlayButtons()
                 MasterpieceMovies()
@@ -195,7 +195,7 @@ struct PopularLivesItems: View {
     }
 }
 
-struct PoularMovies: View {
+struct PopularMovies: View {
     let row = [
         GridItem(.flexible(minimum: 10, maximum: 100))
     ]
